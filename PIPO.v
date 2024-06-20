@@ -38,8 +38,7 @@ reg[3:0] d_in;
 wire[3:0] d_out;
 PIPO p1(clk,reset,d_in,d_out);
 
-initial 
-begin
+initial begin
 $dumpfile("dump.vcd");
 $dumpvars(0, PIPO_tb);
 clk=0;
