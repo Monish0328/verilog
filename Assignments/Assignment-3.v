@@ -54,7 +54,7 @@
       b={a,1};
    end
 
-  A:b=21
+  A:b=  7'b10101=21
 
 6. Which block executes in the below snippet and justify the
 reason:
