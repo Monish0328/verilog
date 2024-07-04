@@ -85,4 +85,4 @@ the top module from the below snippet?
       $display(&quot;Value = %s&quot;,s[104:65]);
     end
     
-      A:
+      A:hello world
