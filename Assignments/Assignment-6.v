@@ -60,7 +60,7 @@ endmodule
    detector in order to detect a sequence 1101 with LSB first.
 
 
-     A:module mealy_sequence_detector (
+  A:module mealy_sequence_detector (
     input wire clk,     
     input wire reset,    
     input wire data_in,  
