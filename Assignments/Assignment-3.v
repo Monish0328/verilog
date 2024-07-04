@@ -125,4 +125,25 @@ Based on sel signal output will be assigned.
   3'b101 => bitwise or
   3'b110 => bitwise nand
   3'b111 => bitwise xnor
-A:
+A:  
+
+  module ALU_4bit (
+    input [3:0] A,
+    input [3:0] B,
+    input [2:0] sel,
+    output reg [3:0] result);
+
+  always @* begin
+    case(sel)
+        3'b000: result = A + B;        // Addition
+        3'b001: result = A - B;        // Subtraction
+        3'b010: result = A / B;        // Division (not straightforward in combinational logic)
+        3'b011: result = A & B;        // Logical AND
+        3'b100: result = A & B;        // Bitwise AND
+        3'b101: result = A | B;        // Bitwise OR
+        3'b110: result = ~(A & B);     // Bitwise NAND
+        3'b111: result = ~(A ^ B);     // Bitwise XNOR
+        default: result = 4'b0000;      // Default to all zeros (or other default behavior)
+    endcase
+  end
+  endmodule
