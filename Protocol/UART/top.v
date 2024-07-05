@@ -35,4 +35,37 @@ always @(posedge clk) begin
     end
 end
 
+    uart_rx #(
+.BIT_RATE(BIT_RATE),
+.PAYLOAD_BITS(PAYLOAD_BITS),
+.CLK_HZ  (CLK_HZ  )
+) i_uart_rx(
+.clk          (clk          ), 
+.resetn       (sw_0         ), 
+.uart_rxd     (uart_rxd     ), 
+.uart_rx_en   (1'b1         ), 
+.uart_rx_break(uart_rx_break),
+.uart_rx_valid(uart_rx_valid), 
+.uart_rx_data (uart_rx_data )  
+);
+
+
+uart_tx #(
+.BIT_RATE(BIT_RATE),
+.PAYLOAD_BITS(PAYLOAD_BITS),
+.CLK_HZ  (CLK_HZ  )
+) i_uart_tx(
+.clk          (clk          ),
+.resetn       (sw_0         ),
+.uart_txd     (uart_txd     ),
+.uart_tx_en   (uart_tx_en   ),
+.uart_tx_busy (uart_tx_busy ),
+.uart_tx_data (uart_tx_data ) 
+);
+
+
+endmodule
+
+
+
 
