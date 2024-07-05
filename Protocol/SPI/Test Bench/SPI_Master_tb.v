@@ -3,22 +3,22 @@
 
 module SPI_Master_tb();
 
-parameter	CLK_FREQUENCE	= 50_000_000		,
-			SPI_FREQUENCE	= 5_000_000			,
-			DATA_WIDTH		= 8					,
-			CPOL			= 1					,
-			CPHA			= 1					;
+parameter	CLK_FREQUENCE	= 50_000_000,
+		SPI_FREQUENCE	= 5_000_000,
+	        DATA_WIDTH	= 8,
+		CPOL		= 1,
+		CPHA 		= 1;
 
-reg								clk				;
-reg								rst_n			;
-reg		[DATA_WIDTH-1:0]		data_in			;
-reg								start			;
-reg								miso			;
-wire							sclk			;
-wire							cs_n			;
-wire							mosi			;
-wire							finish			;
-wire	[DATA_WIDTH-1:0]		data_out		;
+reg	clk;
+reg	rst_n;
+reg	[DATA_WIDTH-1:0]data_in;
+reg	start;
+reg	miso;
+wire	sclk;
+wire	cs_n;
+wire	mosi;
+wire	finish;
+wire	[DATA_WIDTH-1:0]data_out;
 
 initial begin
 	clk = 1;
@@ -94,21 +94,21 @@ spi_master
 #(
 	.CLK_FREQUENCE (CLK_FREQUENCE ),
 	.SPI_FREQUENCE (SPI_FREQUENCE ),
-	.DATA_WIDTH    (DATA_WIDTH    ),
-	.CPOL          (CPOL          ),
-	.CPHA          (CPHA          )
+	.DATA_WIDTH    (DATA_WIDTH ),
+	.CPOL          (CPOL),
+	.CPHA          (CPHA)
 )
 u_spi_master(
-	.clk         (clk         ),
-	.rst_n       (rst_n       ),
-	.data_in     (data_in     ),
-	.start       (start       ),
-	.miso        (miso        ),
-	.sclk        (sclk        ),
-	.cs_n        (cs_n        ),
-	.mosi        (mosi        ),
-	.finish 	 (finish	  ),
-	.data_out    (data_out    )
+	.clk         (clk ),
+	.rst_n       (rst_n),
+	.data_in     (data_in),
+	.start       (start),
+	.miso        (miso),
+	.sclk        (sclk),
+	.cs_n        (cs_n),
+	.mosi        (mosi),
+	.finish      (finish),
+	.data_out    (data_out)
 );
 
 endmodule
