@@ -3,46 +3,44 @@
 
 module spi_master
 #(
-	parameter	CLK_FREQUENCE	= 50_000_000		,
-				SPI_FREQUENCE	= 5_000_000			,	
-				DATA_WIDTH		= 8					,	
-				CPOL			= 0					,	
-				CPHA			= 0					 	
-)
+	parameter       CLK_FREQUENCE	= 50_000_000,
+		        SPI_FREQUENCE	= 5_000_000,	
+			DATA_WIDTH		= 8,	
+			CPOL			= 0,	
+			CPHA			= 0)
 (
-	input								clk			,	
-	input								rst_n		,	
-	input		[DATA_WIDTH-1:0]		data_in		,
-	input								start		,	
-	input								miso		,	
-	output	reg							sclk		,	
-	output	reg							cs_n		,	
-	output								mosi		,	
-	output	reg							finish		,	
-	output	reg [DATA_WIDTH-1:0]		data_out	 	
-);
+	input		clk,	
+	input		rst_n,	
+	input		[DATA_WIDTH-1:0]data_in	,
+	input		start,	
+	input		miso,	
+	output	reg	sclk,	
+	output	reg	cs_n,	
+	output		mosi,	
+	output	reg	finish,	
+	output	reg    [DATA_WIDTH-1:0]	data_out);
 
-localparam	FREQUENCE_CNT	= CLK_FREQUENCE/SPI_FREQUENCE - 1	,
-			SHIFT_WIDTH		= log2(DATA_WIDTH)					,
-			CNT_WIDTH		= log2(FREQUENCE_CNT)				;
+localparam	FREQUENCE_CNT	= CLK_FREQUENCE/SPI_FREQUENCE - 1,
+			SHIFT_WIDTH		= log2(DATA_WIDTH),
+			CNT_WIDTH		= log2(FREQUENCE_CNT);
 
-localparam	IDLE	=	3'b000	,
-			LOAD	=	3'b001	,
-			SHIFT	=	3'b010	,
-			DONE	=	3'b100	;
+localparam	        IDLE  	=3'b000,
+			LOAD	=3'b001,
+			SHIFT	=3'b010,
+			DONE	=3'b100;
 
-reg		[2:0]				cstate		;	
-reg		[2:0]				nstate		;	
-reg							clk_cnt_en	;	 
-reg							sclk_a		;	
-reg							sclk_b		;	
-wire						sclk_posedge;	
-wire						sclk_negedge;	
-wire						shift_en	;
-wire						sampl_en	;	
-reg		[CNT_WIDTH-1:0]		clk_cnt		;	
-reg		[SHIFT_WIDTH-1:0]	shift_cnt	;	
-reg		[DATA_WIDTH-1:0]	data_reg	;
+reg		[2:0]cstate;	
+reg		[2:0]nstate;	
+reg		clk_cnt_en;	 
+reg		sclk_a;	
+reg		sclk_b;	
+wire		sclk_posedge;	
+wire		sclk_negedge;	
+wire		shift_en;
+wire		sampl_en;	
+reg		[CNT_WIDTH-1:0]	clk_cnt	;	
+reg		[SHIFT_WIDTH-1:0]shift_cnt;	
+reg		[DATA_WIDTH-1:0]data_reg;
 
 always @(posedge clk or negedge rst_n) begin
 	if (!rst_n) 
@@ -130,19 +128,19 @@ always @(posedge clk or negedge rst_n) begin
 				finish 		<= 1'b0	;
 			end
 			LOAD	: begin
-				clk_cnt_en	<= 1'b1		;
-				data_reg	<= data_in	;
-				cs_n		<= 1'b0		;
-				shift_cnt	<= 'd0		;
-				finish 		<= 1'b0		;
+				clk_cnt_en	<= 1'b1	;
+				data_reg	<= data_in;
+				cs_n		<= 1'b0	;
+				shift_cnt	<= 'd0	;
+				finish 		<= 1'b0	;
 			end
 			SHIFT	: begin
 				if (shift_en) begin
 					shift_cnt	<= shift_cnt + 1'b1 ;
 					data_reg	<= {data_reg[DATA_WIDTH-2:0],1'b0};
 				end else begin
-					shift_cnt	<= shift_cnt	;
-					data_reg	<= data_reg		;
+					shift_cnt	<= shift_cnt;
+					data_reg	<= data_reg;
 				end
 				clk_cnt_en	<= 1'b1	;
 				cs_n		<= 1'b0	;
