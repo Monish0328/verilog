@@ -3,37 +3,35 @@
 
 module SPI_Slave
 #(
-	parameter	CLK_FREQUENCE	= 50_000_000		,	
-				SPI_FREQUENCE	= 5_000_000			,	
-				DATA_WIDTH		= 8					,	
-				CPOL			= 1					,	
-				CPHA			= 1					 	
-)
+	parameter	CLK_FREQUENCE	= 50_000_000,	
+			SPI_FREQUENCE	= 5_000_000,	
+			DATA_WIDTH		= 8,	
+			CPOL			= 1,	
+			CPHA			= 1)
 (
-	input								clk			,	
-	input								rst_n		,	
-	input		[DATA_WIDTH-1:0]		data_in		,
-	input								sclk		,	
-	input								cs_n		,	
-	input								mosi		,	
-	output								miso		,	
-	output								data_valid	,	
-	output	reg	[DATA_WIDTH-1:0]		data_out	 	
-);
+	input		clk,	
+	input		rst_n,	
+	input		[DATA_WIDTH-1:0]data_in,
+	input		sclk,	
+	input		cs_n,	
+	input		mosi,	
+	output		miso,	
+	output		data_valid,	
+	output	reg	[DATA_WIDTH-1:0]data_out);
 
 localparam	SFIFT_NUM = log2(DATA_WIDTH);
 
-reg	[DATA_WIDTH-1:0]		data_reg	;	
-reg	[ SFIFT_NUM-1:0]		sampl_num	;	
-reg							sclk_a		;	
-reg							sclk_b		;	
-wire						sclk_posedge;	
-wire						sclk_negedge;	
-reg							cs_n_a		;	
-reg							cs_n_b		;	
-wire						cs_n_negedge;	
-wire						shift_en	;	
-wire						sampl_en	;	
+reg	[DATA_WIDTH-1:0]data_reg;	
+reg	[ SFIFT_NUM-1:0]sampl_num;	
+reg	sclk_a;	
+reg	sclk_b;	
+wire	sclk_posedge;	
+wire	sclk_negedge;	
+reg	cs_n_a;	
+reg	cs_n_b;	
+wire	cs_n_negedge;	
+wire	shift_en;	
+wire	sampl_en;	
 always @(posedge clk or negedge rst_n) begin
 	if (!rst_n) begin
 		sclk_a <= CPOL;
@@ -52,8 +50,8 @@ always @(posedge clk or negedge rst_n) begin
 		cs_n_a	<= 1'b1;
 		cs_n_b	<= 1'b1;
 	end else begin
-		cs_n_a	<= cs_n		;
-		cs_n_b	<= cs_n_a	;
+		cs_n_a	<= cs_n	;
+		cs_n_b	<= cs_n_a;
 	end
 end
 
